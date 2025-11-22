@@ -1,0 +1,12 @@
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\connection\Conexao.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\daos\ClienteDao.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\daos\ProdutoDao.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\daos\VendaDao.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\Cliente.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\ClienteInvalidoException.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\Funcionario.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\Pessoa.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\Produto.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\Venda.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\entity\VendaInvalidaException.java
+C:\Users\andre\Downloads\Downloads\PadariaTestsRefactor\src\main\java\interfaces\ICrud.java
