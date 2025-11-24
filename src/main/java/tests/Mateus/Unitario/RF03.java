@@ -18,7 +18,7 @@ public class RF03 {
         String nome = "Pão de Forma";
         double preco = 6.5;
         int quantidade = 20;
-        String tipo = "Pão";
+        String tipo = "Salgado";
         // Act
         produtoValido = Produto.createProduto(nome, preco, quantidade, tipo);
         // Assert
@@ -26,7 +26,7 @@ public class RF03 {
         Assert.assertEquals("Pão de Forma", produtoValido.getNome());
         Assert.assertEquals(0, produtoValido.getPreco(), 6.5);
         Assert.assertEquals(20, produtoValido.getQuantidade());
-        Assert.assertEquals("Pão", produtoValido.getTipo());
+        Assert.assertEquals("Salgado", produtoValido.getTipo());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class RF03 {
         String nome = "Pão de Forma";
         double preco = -6.5;
         int quantidade = 20;
-        String tipo = "Pão";
+        String tipo = "Salgado";
         //Act
         prodPrecoInvalido = Produto.createProduto(nome, preco, quantidade, tipo);
         //Assert
@@ -62,7 +62,7 @@ public class RF03 {
         String nome = "Pão de Forma";
         double preco = 6.5;
         int quantidade = -3;
-        String tipo = "Pão";
+        String tipo = "Salgado";
         //Act
         prodQuantInvalido = Produto.createProduto(nome, preco, quantidade, tipo);
         //Assert

@@ -31,8 +31,10 @@ public class Produto {
     public static Produto createProduto(String nome, double preco,int quantidade, String tipo){
         Produto produto = null;
         ArrayList<String> carac= new ArrayList<>();
-        carac.add("!");
-        carac.add("?");
+        carac.add("Salgado");
+        carac.add("Doce");
+        carac.add("Bebida");
+        int cont = 0;
 
         try {
             if(nome.isBlank() ){
@@ -44,7 +46,12 @@ public class Produto {
             if(quantidade < 0){
                 throw new ProdutoInvalidoException("Quantidade digitada é inválida, favor validar!");
             }
-            if( !tipo.equalsIgnoreCase("Pão") && !tipo.equalsIgnoreCase("Bolo") && !tipo.equalsIgnoreCase("Bebida")){
+            for(String prodTipo : carac){
+                if(tipo != prodTipo){
+                    cont++;
+                }
+            }
+            if(cont == carac.size()){
                 throw new ProdutoInvalidoException("Tipo digitado é inválido, favor validar!");
             }
             produto = new Produto(nome,preco,quantidade,tipo);
