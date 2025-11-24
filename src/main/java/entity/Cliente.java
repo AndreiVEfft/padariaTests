@@ -19,24 +19,29 @@ public class Cliente {
     public Cliente() {}
 
     public static Cliente createUser(String nome, String cpf, String telefone, int pontos )throws ClienteInvalidoException{
-        if(nome.isBlank()){
-            throw new ClienteInvalidoException("Há campos obrigatórios não preenchidos!");
+        Cliente cliente = null;
+        try {
+            if(nome.isBlank()){
+                throw new ClienteInvalidoException("Há campos obrigatórios não preenchidos!");
+            }
+
+            if( cpf.length() != 11){
+                throw new ClienteInvalidoException("CPF digitado é inválido, favor validar!");
+            }
+
+            if(telefone.length() != 11){
+                throw new ClienteInvalidoException("Número digitado é inválido, favor validar!");
+            }
+
+            if(pontos < 0){
+              throw new ClienteInvalidoException("Cliente não possui nenhum ponto salvo");
+
+            }
+
+            cliente = new Cliente(nome, cpf, telefone, pontos);
+        } catch (ClienteInvalidoException e) {
+            System.out.printf("Erro: " + e.getMessage());
         }
-
-        if( cpf.length() != 11){
-            throw new ClienteInvalidoException("CPF digitado é inválido, favor validar!");
-        }
-
-        if(telefone.length() != 11){
-            throw new ClienteInvalidoException("Número digitado é inválido, favor validar!");
-        }
-
-        if(pontos < 0){
-          throw new ClienteInvalidoException("Cliente não possui nenhum ponto salvo");
-
-        }
-
-        Cliente cliente = new Cliente(nome, cpf, telefone, pontos);
 
         return cliente;
     }

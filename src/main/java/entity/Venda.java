@@ -24,17 +24,22 @@ public class Venda {
     }
 
     public static Venda createVenda(String cpfCliente, String mtdPag, double valorVenda, ArrayList<Produto>produtos){
-        if(cpfCliente.length() != 11){
-            throw new VendaInvalidaException("CPF do Cliente não foi encontrado, favor verificar o campo CPF!");
-        }
-        if(mtdPag.isBlank() || mtdPag.isEmpty() || mtdPag.length() <3){
-            throw new VendaInvalidaException("Método de pagamento inválido, verificar!");
-        }
-        if(valorVenda <= 0){
-            throw new VendaInvalidaException("Valor de venda inválido, verificar!");
-        }
+        Venda venda = null;
+        try {
+            if(cpfCliente.length() != 11){
+                throw new VendaInvalidaException("CPF do Cliente não foi encontrado, favor verificar o campo CPF!");
+            }
+            if(mtdPag.isBlank() || mtdPag.isEmpty() || mtdPag.length() <3){
+                throw new VendaInvalidaException("Método de pagamento inválido, verificar!");
+            }
+            if(valorVenda <= 0){
+                throw new VendaInvalidaException("Valor de venda inválido, verificar!");
+            }
 
-        Venda venda = new Venda(cpfCliente, mtdPag, valorVenda,produtos);
+            venda = new Venda(cpfCliente, mtdPag, valorVenda,produtos);
+        } catch (VendaInvalidaException e) {
+            System.out.printf("Erro: " + e.getMessage());
+        }
         return venda;
     }
 

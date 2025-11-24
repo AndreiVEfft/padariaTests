@@ -2,6 +2,8 @@ package entity;
 
 import exceptions.ProdutoInvalidoException;
 
+import java.util.ArrayList;
+
 public class Produto {
 
     private String nome;
@@ -27,13 +29,28 @@ public class Produto {
     public Produto() {}
 
     public static Produto createProduto(String nome, double preco,int quantidade, String tipo){
-        if(nome.isBlank() ){
-            throw new ProdutoInvalidoException("Há campos obrigatórios não preenchidos!");
+        Produto produto = null;
+        ArrayList<String> carac= new ArrayList<>();
+        carac.add("!");
+        carac.add("?");
+
+        try {
+            if(nome.isBlank() ){
+                throw new ProdutoInvalidoException("Há campos obrigatórios não preenchidos!");
+            }
+            if(preco <= 0){
+                throw new ProdutoInvalidoException("Valor digitado é inválido, favor validar!");
+            }
+            if(quantidade < 0){
+                throw new ProdutoInvalidoException("Quantidade digitada é inválida, favor validar!");
+            }
+            if( !tipo.equalsIgnoreCase("Pão") && !tipo.equalsIgnoreCase("Bolo") && !tipo.equalsIgnoreCase("Bebida")){
+                throw new ProdutoInvalidoException("Tipo digitado é inválido, favor validar!");
+            }
+            produto = new Produto(nome,preco,quantidade,tipo);
+        } catch (ProdutoInvalidoException e) {
+            System.out.printf("Erro: " + e.getMessage());
         }
-        if(preco <= 0){
-            throw new ProdutoInvalidoException("Valor digitado é inválido, favor validar!");
-        }
-        Produto produto = new Produto(nome,preco,quantidade,tipo);
 
         return produto;
     }

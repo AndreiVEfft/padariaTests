@@ -82,6 +82,7 @@ public class testedotestebagual {
         venDao.salvar(venda02);
 
         venDao.update(vendaUpd, 1);
+        venDao.delete(0);
 
         //Arrange
         for(Venda umaVen : venDao.consultar()){
