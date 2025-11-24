@@ -16,8 +16,10 @@ public class ProdutoDAO implements ProdutoDaoInterface {
     public void salvar(Produto obj) {
         Connection conexao = null;
 
-        if(consultarPeloNome(obj.getNome()).getNome() != null){
-            throw new RuntimeException("Produto já cadastrado!");
+        for (Produto umProd : consultar()){
+            if(umProd.getNome().equals(obj.getNome())){
+                throw new RuntimeException("Produto já cadastrado!");
+            }
         }
 
         try{
@@ -44,15 +46,16 @@ public class ProdutoDAO implements ProdutoDaoInterface {
         Connection con = null;
         PreparedStatement smt = null;
 
-        String sql = "UPDATE produtos SET nome = ?, preco = ?, tipo = ?, quantidade = ? WHERE id_produto = ?" ;
+        String sql = "UPDATE produtos SET nome = ?, preco = ?, tipo = ?, quantidade = ? WHERE nome = ?" ;
         try {
             con = Conexao.getConnection();
             smt = con.prepareStatement(sql);
 
             smt.setString(1, prod.getNome());
             smt.setDouble(2,prod.getPreco());
-            smt.setInt(3,prod.getQuantidade());
-            smt.setString(4, nome);
+            smt.setString(3,prod.getTipo());
+            smt.setInt(4, prod.getQuantidade());
+            smt.setString(5, nome);
 
             smt.executeUpdate();
         }

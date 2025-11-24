@@ -47,7 +47,7 @@ public class Produto {
                 throw new ProdutoInvalidoException("Quantidade digitada é inválida, favor validar!");
             }
             for(String prodTipo : carac){
-                if(tipo != prodTipo){
+                if(!tipo.equals(prodTipo)){
                     cont++;
                 }
             }

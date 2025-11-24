@@ -26,9 +26,9 @@ public class RF04 {
         // Arrange
         ArrayList<Produto> produtos = new ArrayList<>();
         Produto prod01 = Produto.createProduto("Pão de queijo", 5, 20, "Salgado");
-        Venda vendaValida = Venda.createVenda("12312312312", "Dinheiro", 10, produtos);
         VendaMock venDao = new VendaMock();
         produtos.add(prod01);
+        Venda vendaValida = Venda.createVenda("12312312312", "Dinheiro", 10, produtos);
         venDao.salvar(vendaValida);
 
         // Act
