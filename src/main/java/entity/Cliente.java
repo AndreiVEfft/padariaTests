@@ -31,7 +31,7 @@ public class Cliente {
             throw new ClienteInvalidoException("Número digitado é inválido, favor validar!");
         }
 
-        if(pontos <= 0){
+        if(pontos < 0){
           throw new ClienteInvalidoException("Cliente não possui nenhum ponto salvo");
 
         }

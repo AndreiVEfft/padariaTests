@@ -1,3 +1,4 @@
+import daos.ProdutoDAO;
 import daos.VendaDao;
 import entity.Produto;
 import entity.Venda;
@@ -12,15 +13,21 @@ public class Main {
         Produto produto1 = createProduto("Pepsi",10.0,15,"Bebida");
         Produto produto2 = createProduto("Arthur",599.99,1,"Arthur");
 
-        VendaDao dao = new VendaDao();
+        VendaDao vendaDao = new VendaDao();
+        ProdutoDAO prodDao = new ProdutoDAO();
         ArrayList<Produto> produtos = new ArrayList<>();
 
         produtos.add(produto1);
         produtos.add(produto2);
 
+        //prodDao.salvar(produto1);
+        //prodDao.salvar(produto2);
+
         Venda venda = createVenda("13147889966", "Dinheiro",produto2.getPreco(),produtos);
 
-        dao.consultarPeloId(19);
+        //vendaDao.salvar(venda);
+
+        System.out.println(vendaDao.consultarPeloId(1).getValorVenda());
     }
 
 }

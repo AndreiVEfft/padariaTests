@@ -2,6 +2,7 @@ package daos;
 
 import connection.Conexao;
 import entity.Produto;
+import interfaces.ProdutoDaoInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,9 +10,10 @@ import java.util.List;
 
 import static entity.Produto.createProduto;
 
-public class ProdutoDAO {
+public class ProdutoDAO implements ProdutoDaoInterface {
 
-    public Produto salvar(Produto obj) {
+    @Override
+    public void salvar(Produto obj) {
         Connection conexao = null;
 
         if(consultarPeloNome(obj.getNome()).getNome() != null){
@@ -35,23 +37,22 @@ public class ProdutoDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao tentar salvar o cliente: " + ex.getMessage());
         }
-        return obj;
     }
 
-    public Produto update(String nome) {
+    @Override
+    public Produto update(String nome, Produto prod) {
         Connection con = null;
         PreparedStatement smt = null;
 
         String sql = "UPDATE produtos SET nome = ?, preco = ?, tipo = ?, quantidade = ? WHERE id_produto = ?" ;
-        Produto produto = consultarPeloNome(nome.toUpperCase());
         try {
             con = Conexao.getConnection();
             smt = con.prepareStatement(sql);
 
-            smt.setString(1, produto.getNome());
-            smt.setDouble(2,produto.getPreco());
-            smt.setInt(3,produto.getQuantidade());
-            smt.setString(4, produto.getTipo());
+            smt.setString(1, prod.getNome());
+            smt.setDouble(2,prod.getPreco());
+            smt.setInt(3,prod.getQuantidade());
+            smt.setString(4, nome);
 
             smt.executeUpdate();
         }
@@ -62,9 +63,10 @@ public class ProdutoDAO {
         finally {
             Conexao.fecharConexao();
         }
-        return produto;
+        return prod;
     }
 
+    @Override
     public List<Produto> consultar() {
         List<Produto> produtos = new ArrayList<>();
         Connection con = null;
@@ -92,6 +94,7 @@ public class ProdutoDAO {
         return produtos;
     }
 
+    @Override
     public boolean delete(String nome) {
         Connection con = null;
         PreparedStatement smt = null;
@@ -115,7 +118,7 @@ public class ProdutoDAO {
         }
     }
 
-
+    @Override
     public Produto consultarPeloNome(String nome) {
         String sql = "SELECT * FROM produtos WHERE nome = ?";
         Produto prod = new Produto();

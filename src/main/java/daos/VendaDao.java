@@ -2,13 +2,13 @@ package daos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import connection.Conexao;
 import entity.Cliente;
 import entity.Produto;
 import entity.Venda;
-import exceptions.VendaInvalidaException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import interfaces.VendaDaoInterface;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,13 +20,14 @@ import java.util.List;
 
 import static entity.Venda.createVenda;
 
-public class VendaDao {
+public class VendaDao implements VendaDaoInterface {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public Venda salvar(Venda venda) {
+    @Override
+    public void salvar(Venda venda) {
 
-        ClienteDAO dao = new ClienteDAO();
+        ClienteDao dao = new ClienteDao();
         Cliente cliente = dao.consultarPeloCpf(venda.getCpfCliente());
 
         String sql = "INSERT INTO vendas (cpf_cliente,valor_venda,form_pag,data_venda, produtos) values(?,?,?,?,?)";
@@ -51,10 +52,10 @@ public class VendaDao {
             System.out.println(ex.getMessage());
             throw new RuntimeException("Erro ao tentar criar a venda:");
         }
-        return venda;
     }
 
-    public Venda update(Venda venda){
+    @Override
+    public Venda update(Venda venda, int id){
         Connection con = null;
         PreparedStatement smt = null;
 
@@ -67,6 +68,7 @@ public class VendaDao {
             smt.setString(1, venda.getCpfCliente());
             smt.setDouble(2,venda.getValorVenda());
             smt.setString(3,venda.getMtdPag());
+            smt.setInt(4, id);
 
             smt.executeUpdate();
         }
@@ -80,6 +82,7 @@ public class VendaDao {
         return null;
     }
 
+    @Override
     public List<Venda> consultar() {
         List<Venda> vendas = new ArrayList<>();
         Connection con = null;
@@ -112,6 +115,7 @@ public class VendaDao {
         return vendas;
     }
 
+    @Override
     public boolean delete(int id) {
         Connection con = null;
         PreparedStatement smt = null;
