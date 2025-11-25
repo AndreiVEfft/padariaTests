@@ -53,7 +53,10 @@ public class Cliente {
     public String getCpf() {
         return cpf;
     }
-
+    
+    public void setPontos(int pontos){
+        this.pontos += pontos;
+    }
     public String getTelefone() {
         return telefone;
     }
