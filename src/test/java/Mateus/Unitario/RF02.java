@@ -1,4 +1,4 @@
-package tests.Mateus.Unitario;
+package Mateus.Unitario;
 
 import org.junit.Test;
 
