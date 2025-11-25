@@ -1,4 +1,4 @@
-package tests.Mateus.Integração;
+package Mateus.Integração;
 
 import daos.ProdutoDAO;
 import entity.Produto;
