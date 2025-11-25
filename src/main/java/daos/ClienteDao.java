@@ -1,6 +1,7 @@
 package daos;
 
 import connection.Conexao;
+import entity.Produto;
 import interfaces.ClienteDaoInterface;
 import entity.Cliente;
 import java.sql.*;
@@ -16,6 +17,12 @@ public class ClienteDao implements ClienteDaoInterface {
         Connection con = null;
         try{
             con = Conexao.getConnection();
+
+            for (Cliente umCli : consultar()){
+                if(umCli.getCpf().equals(cliente.getCpf())){
+                    throw new RuntimeException("Cliente já cadastrado!");
+                }
+            }
 
             String sql = "INSERT INTO clientes(nome,cpf,telefone,pontos)values(?,?,?,?)";
 
