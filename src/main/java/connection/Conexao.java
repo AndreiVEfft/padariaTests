@@ -11,9 +11,9 @@ public class Conexao {
     private static Connection con = null;
     
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String url = "jdbc:postgresql://localhost:5432/padaria-db";
         String user = "postgres";
-        String password =  "123";
+        String password =  "root";
         
         Connection con = DriverManager.getConnection(url,user,password);
         

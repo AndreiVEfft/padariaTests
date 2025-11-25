@@ -82,45 +82,38 @@ public class VendaDao implements VendaDaoInterface {
         return null;
     }
 
+    @Override
     public List<Venda> consultar() {
-    List<Venda> vendas = new ArrayList<>();
+        List<Venda> vendas = new ArrayList<>();
+        Connection con = null;
 
-    try {
-        Connection con = Conexao.getConnection();
-        PreparedStatement smt = con.prepareStatement("SELECT * FROM vendas");
+        try{
+            con = Conexao.getConnection();
+            PreparedStatement smt = con.prepareStatement("SELECT * FROM vendas");
 
-        ResultSet rs = smt.executeQuery();
+            ResultSet rs = smt.executeQuery();
 
-        while (rs.next()) {
+            if(rs.next()){
+                String jsonProdutos = rs.getString("produtos");
+                ArrayList<Produto> produtos = mapper.readValue(
+                        jsonProdutos, new TypeReference<ArrayList<Produto>>() {});
+            while(rs.next()){
+                Venda venda;
+                venda = createVenda( rs.getString("cpf_cliente"), rs.getString("form_pag"), rs.getDouble("valor_venda"), produtos);
+                System.out.println(venda.toString());
+                }
+            }
 
-            // Lê o JSON da coluna
-            String jsonProdutos = rs.getString("produtos");
 
-            // Converte JSON → Lista de Produtos
-            ArrayList<Produto> produtos = mapper.readValue(
-                    jsonProdutos,
-                    new TypeReference<ArrayList<Produto>>() {}
-            );
-
-            // Cria a venda
-            Venda venda = createVenda(
-                    rs.getString("cpf_cliente"),
-                    rs.getString("form_pag"),
-                    rs.getDouble("valor_venda"),
-                    produtos
-            );
-
-            vendas.add(venda);
+        }catch(SQLException ex){
+            throw new RuntimeException(ex.getMessage());
+        }  catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        } finally{
+            Conexao.fecharConexao();
         }
-
-    } catch (SQLException | JsonProcessingException ex) {
-        throw new RuntimeException(ex.getMessage());
-    } finally {
-        Conexao.fecharConexao();
+        return vendas;
     }
-
-    return vendas;
-}
 
     @Override
     public boolean delete(int id) {

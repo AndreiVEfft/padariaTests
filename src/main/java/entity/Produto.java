@@ -1,10 +1,9 @@
 package entity;
 
 import exceptions.ProdutoInvalidoException;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Produto {
 
     private String nome;
@@ -61,10 +60,6 @@ public class Produto {
         }
 
         return produto;
-    }
-    
-    public double getPrecoPontos() {
-        return (int) (this.getPreco() / 10.0);
     }
 
     public String getNome() {

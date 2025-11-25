@@ -1,6 +1,5 @@
 package entity;
 
-import daos.ClienteDao;
 import exceptions.VendaInvalidaException;
 
 import java.util.ArrayList;
@@ -43,12 +42,7 @@ public class Venda {
             if(valorVenda <= 0){
                 throw new VendaInvalidaException("Valor de venda inválido, verificar!");
             }
-            
-            ClienteDao cliDAO = new ClienteDao();
-            Cliente cliente = cliDAO.consultarPeloCpf(cpfCliente);
-            cliente.setPontos((int) valorVenda / 10);
-            cliDAO.update(cliente, cliente.getCpf());
-            
+
             venda = new Venda(cpfCliente, mtdPag, valorVenda,produtos);
         } catch (VendaInvalidaException e) {
             System.out.printf("Erro: " + e.getMessage());
@@ -78,39 +72,6 @@ public class Venda {
             this.produtos = new ArrayList<>();
         }
         this.produtos.add(produto);
-    }
-    
-    public static Venda createVendaResgatada (Cliente cliente, String cpfCliente, double valorVenda, ArrayList<Produto> produtos){
-        Venda venda = null;
-        int quantidadeTotalPontos = 0;
-        try {
-            if(cpfCliente.length() != 11){
-                throw new VendaInvalidaException("CPF do Cliente não foi encontrado, favor verificar o campo CPF!");
-            }
-            if(valorVenda <= 0){
-                throw new VendaInvalidaException("Valor de venda inválido, verificar!");
-            }
-            if(cliente == null){
-                throw new VendaInvalidaException("Cliente não encontrado, verifique e tente novamenet!");
-            }
-            
-            for (Produto prod : produtos){
-                if (prod.getPreco() < 10.0){
-                    quantidadeTotalPontos++;
-                } else{
-                    quantidadeTotalPontos += prod.getPrecoPontos();
-                }
-            }
-            
-            if (cliente.getPontos() < quantidadeTotalPontos){
-                throw new VendaInvalidaException("Cliente sem saldo de pontos suficiente!");
-            }
-            
-            venda = new Venda(cpfCliente, "Pontos", quantidadeTotalPontos, produtos);
-        } catch (VendaInvalidaException e) {
-            System.out.printf("Erro: " + e.getMessage());
-        }
-        return venda;
     }
 
 
