@@ -53,10 +53,10 @@ public class RF04 {
         // Arrange
         ArrayList<Produto> produtos = new ArrayList<>();
         Produto prod01 = Produto.createProduto(0,"Pão de queijo", 5, 20, "Salgado");
+        produtos.add(prod01);
         Venda vendaValida = Venda.createVenda("12312312312", "Dinheiro", 10, produtos);
         VendaMock venDao = new VendaMock();
         List<Venda> vendas;
-        produtos.add(prod01);
         venDao.salvar(vendaValida);
 
         // Act
@@ -65,7 +65,7 @@ public class RF04 {
         venDao.delete(1);
 
         // Assert
-        Assert.assertNotNull(venDao.consultarPeloId(0));
+        Assert.assertFalse(venDao.delete(1));
         Assert.assertEquals("12312312312", venDao.consultarPeloId(0).getCpfCliente());
         Assert.assertEquals(vendas, venDao.consultar());
     }

@@ -19,9 +19,14 @@ public class Login {
         return senha;
     }
 
-    public boolean validarLogin(String senha) {
-        if(!cliente.getCpf().isEmpty() && senha.equalsIgnoreCase(this.senha)){
-            return true;
+    public boolean validarLogin(String cpf,String senha) {
+        if(!cliente.getCpf().isEmpty() && cpf.equalsIgnoreCase(cliente.getCpf())){
+            if(senha.equalsIgnoreCase(this.senha)){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         else{
             return false;

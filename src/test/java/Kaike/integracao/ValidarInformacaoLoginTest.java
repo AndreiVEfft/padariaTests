@@ -1,4 +1,4 @@
-package Andrei.integracao;
+package Kaike.integracao;
 
 import daos.ClienteDao;
 import entity.Cliente;
@@ -16,10 +16,10 @@ public class ValidarInformacaoLoginTest {
         Login login = new Login(cliente);
 
         //Act
-        login.validarLogin(cliente.getCpf(), "MAT111");
+        login.validarLogin("11122233344","MAT111");
 
         //Assert
-        Assertions.assertTrue(login.validarLogin(cliente.getCpf(), "MAT111"));
+        Assertions.assertTrue(login.validarLogin("11122233344","MAT111"));
     }
     @Test
     public void logarUsuarioComInformacoesInvalidasNoSistema(){
@@ -30,9 +30,9 @@ public class ValidarInformacaoLoginTest {
         Login login = new Login(cliente);
 
         //Act
-        login.validarLogin("14122253344", "MAT141");
+        login.validarLogin("11122233344","MAT141");
 
         //Assert
-        Assertions.assertFalse(login.validarLogin("14122253344", "MAT141"));
+        Assertions.assertFalse(login.validarLogin("11122233344","MAT141"));
     }
 }

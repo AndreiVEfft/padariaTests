@@ -43,6 +43,13 @@ public class Venda {
             if(valorVenda <= 0){
                 throw new VendaInvalidaException("Valor de venda inválido, verificar!");
             }
+            if(produtos.isEmpty()){
+                throw new VendaInvalidaException("Não há produtos dentro do carrinho!");
+            }
+
+            for (Produto prod : produtos){
+                prod.setQuantidade(prod.getQuantidade()-1);
+            }
 
             venda = new Venda(cpfCliente, mtdPag, valorVenda,produtos);
         } catch (VendaInvalidaException e) {
@@ -59,6 +66,13 @@ public class Venda {
             }
             if(valorVenda <= 0){
                 throw new VendaInvalidaException("Valor de venda inválido, verificar!");
+            }
+            if(produtos.isEmpty()){
+                throw new VendaInvalidaException("Não há produtos dentro do carrinho!");
+            }
+
+            for (Produto prod : produtos){
+                prod.setQuantidade(prod.getQuantidade()-1);
             }
 
             venda = new Venda(mtdPag, valorVenda,produtos);
@@ -88,6 +102,9 @@ public class Venda {
             if(cliente == null){
                 throw new VendaInvalidaException("Cliente não encontrado, verifique e tente novamenet!");
             }
+            if(produtos.isEmpty()){
+                throw new VendaInvalidaException("Não há produtos dentro do carrinho!");
+            }
 
             for (Produto prod : produtos){
                 if (prod.getPreco() < 10.0){
@@ -96,12 +113,16 @@ public class Venda {
                     quantidadeTotalPontos += prod.getPrecoPontos();
                 }
             }
+            for (Produto prod : produtos){
+                prod.setQuantidade(prod.getQuantidade()-1);
+            }
 
             if (cliente.getPontos() < quantidadeTotalPontos){
                 throw new VendaInvalidaException("Cliente sem saldo de pontos suficiente!");
             }
 
             venda = new Venda(cpfCliente, "Pontos", quantidadeTotalPontos, produtos);
+            cliente.setPontos(cliente.getPontos() - quantidadeTotalPontos);
         } catch (VendaInvalidaException e) {
             System.out.printf("Erro: " + e.getMessage());
         }
