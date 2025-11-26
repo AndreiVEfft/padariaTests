@@ -11,7 +11,7 @@ public class Login {
         this.senha = createSenha();
     }
 
-    private String createSenha(){
+    public String createSenha(){
         String senhaFinal = cliente.getNome().substring(0,3) + cliente.getCpf().substring(0,3);
         return senhaFinal;
     }

@@ -1,6 +1,6 @@
-package integracao;
+package Andrei.integracao;
 
-import daos.ClienteDAO;
+import daos.ClienteDao;
 import entity.Cliente;
 import entity.Login;
 import org.junit.jupiter.api.Assertions;
@@ -11,30 +11,28 @@ public class ValidarInformacaoLoginTest {
     public void logarUsuarioValidoNoSistema(){
 
         //Arrange
-        ClienteDAO clienteDAO = new ClienteDAO();
+        ClienteDao clienteDAO = new ClienteDao();
         Cliente cliente = clienteDAO.consultarPeloCpf("11122233344");
         Login login = new Login(cliente);
-        login.createSenha();
 
         //Act
-        login.validarLogin();
+        login.validarLogin("MAT111");
 
         //Assert
-        Assertions.assertTrue(login.validarLogin());
+        Assertions.assertTrue(login.validarLogin("MAT111"));
     }
     @Test
     public void logarUsuarioComInformacoesInvalidasNoSistema(){
 
         //Arrange
-        ClienteDAO clienteDAO = new ClienteDAO();
+        ClienteDao clienteDAO = new ClienteDao();
         Cliente cliente = clienteDAO.consultarPeloCpf("11122233344");
         Login login = new Login(cliente);
-        login.createSenha();
 
         //Act
-        login.validarLogin();
+        login.validarLogin("MAT141");
 
         //Assert
-        Assertions.assertNotEquals(login.getSenha(), "MAT141");
+        Assertions.assertFalse(login.validarLogin("MAT141"));
     }
 }

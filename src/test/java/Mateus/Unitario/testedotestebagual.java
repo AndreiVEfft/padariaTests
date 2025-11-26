@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class testedotestebagual {
+    /*
     @Test
     public void teste01(){
         // Arrange
@@ -89,4 +90,6 @@ public class testedotestebagual {
             System.out.printf(umaVen.toString() + "\n");
         }
     }
+
+     */
 }

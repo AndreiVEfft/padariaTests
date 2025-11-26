@@ -82,7 +82,7 @@ public class ProdutoDAO implements ProdutoDaoInterface {
 
 
             while(rs.next()){
-                Produto prod = createProduto(rs.getString("nome").toUpperCase(),rs.getDouble("preco"),rs.getInt("quantidade"),rs.getString("tipo"));
+                Produto prod = createProduto(rs.getInt("id_produto"), rs.getString("nome").toUpperCase(),rs.getDouble("preco"),rs.getInt("quantidade"),rs.getString("tipo"));
                 produtos.add(prod);
             }
             for(Produto pro : produtos){
@@ -95,6 +95,36 @@ public class ProdutoDAO implements ProdutoDaoInterface {
             Conexao.fecharConexao();
         }
         return produtos;
+    }
+
+    public Produto consultarPeloId(int id) {
+        Produto prod = null;
+        try{
+            Connection con = Conexao.getConnection();
+            PreparedStatement smt = con.prepareStatement("select * from produtos where id_produto = ?");
+
+            smt.setInt(1,id);
+            ResultSet rs = smt.executeQuery();
+
+            if (rs.next()) {
+                Produto produto = createProduto(
+                        rs.getInt("id_produto"),
+                        rs.getString("nome").toUpperCase(),
+                        rs.getDouble("preco"),
+                        rs.getInt("quantidade"),
+                        rs.getString("tipo")
+                );
+                prod = produto;
+            }
+
+        }catch(SQLException ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+        finally{
+            Conexao.fecharConexao();
+        }
+        return prod;
+
     }
 
     @Override
@@ -135,6 +165,7 @@ public class ProdutoDAO implements ProdutoDaoInterface {
 
             if (rs.next()) {
                 Produto produto = createProduto(
+                        rs.getInt("id_produto"),
                         rs.getString("nome").toUpperCase(),
                         rs.getDouble("preco"),
                         rs.getInt("quantidade"),

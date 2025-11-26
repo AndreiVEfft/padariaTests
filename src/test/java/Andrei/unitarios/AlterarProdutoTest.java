@@ -1,4 +1,4 @@
-package unitarios;
+package Andrei.unitarios;
 
 import daos.ProdutoDAO;
 import daos.ProdutoDAO;
@@ -18,7 +18,7 @@ public class AlterarProdutoTest {
         Produto novoProduto = createProduto(16,"Pão crocante", 5.99,10,"Pão");
 
         //Act
-        dao.update(novoProduto);
+        dao.update(produto.getNome(),novoProduto);
         Produto produtoAtualizado = dao.consultarPeloId(produto.getId());
 
 
@@ -36,7 +36,7 @@ public class AlterarProdutoTest {
         Produto novoProduto = createProduto(16,"Pão Delicioso", 5.99,10,"Pão");
 
         //Act
-        dao.update(novoProduto);
+        dao.update(produto.getNome(),novoProduto);
         Produto produtoAtualizado = dao.consultarPeloId(produto.getId());
         //Assert
 
@@ -51,7 +51,7 @@ public class AlterarProdutoTest {
         Produto novoProduto = createProduto(16,"Pão Americano", 9.99,10,"Pão");
 
         //Act
-        dao.update(novoProduto);
+        dao.update(produto.getNome(),novoProduto);
         Produto produtoAtualizado = dao.consultarPeloId(produto.getId());
         //Assert
 
@@ -66,7 +66,7 @@ public class AlterarProdutoTest {
         Produto novoProduto = createProduto(16,"Pão Americano", 5.99,15,"Pão");
 
         //Act
-        dao.update(novoProduto);
+        dao.update(produto.getNome(),novoProduto);
         Produto produtoAtualizado = dao.consultarPeloId(produto.getId());
 
         //Assert
