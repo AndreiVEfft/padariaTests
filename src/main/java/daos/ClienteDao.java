@@ -17,6 +17,12 @@ public class ClienteDao implements ClienteDaoInterface {
         try{
             con = Conexao.getConnection();
 
+            for (Cliente umCli : consultar()){
+                if(umCli.getCpf().equals(cliente.getCpf())){
+                    throw new RuntimeException("Cliente já cadastrado!");
+                }
+            }
+
             String sql = "INSERT INTO clientes(nome,cpf,telefone,pontos)values(?,?,?,?)";
 
             PreparedStatement smt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

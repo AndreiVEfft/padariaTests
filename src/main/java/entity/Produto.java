@@ -7,6 +7,7 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Produto {
 
+    private int id;
     private String nome;
     private double preco;
     private int quantidade;
@@ -20,7 +21,8 @@ public class Produto {
         return quantidade;
     }
 
-    private Produto(String nome, double preco,int quantidade,String tipo) {
+    private Produto(int id, String nome, double preco,int quantidade,String tipo) {
+        this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
@@ -29,7 +31,7 @@ public class Produto {
 
     public Produto() {}
 
-    public static Produto createProduto(String nome, double preco,int quantidade, String tipo){
+    public static Produto createProduto(int id, String nome, double preco,int quantidade, String tipo){
         Produto produto = null;
         ArrayList<String> carac= new ArrayList<>();
         carac.add("Salgado");
@@ -55,12 +57,36 @@ public class Produto {
             if(cont == carac.size()){
                 throw new ProdutoInvalidoException("Tipo digitado é inválido, favor validar!");
             }
-            produto = new Produto(nome,preco,quantidade,tipo);
+            produto = new Produto(id,nome,preco,quantidade,tipo);
         } catch (ProdutoInvalidoException e) {
             System.out.printf("Erro: " + e.getMessage());
         }
 
         return produto;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public double getPrecoPontos() {
@@ -78,9 +104,11 @@ public class Produto {
     @Override
     public String toString() {
         return "Produto{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", preco=" + preco +
-                ", tipo:" + tipo +
+                ", quantidade=" + quantidade +
+                ", tipo='" + tipo + '\'' +
                 '}';
     }
 }

@@ -20,7 +20,7 @@ public class RF03 {
         int quantidade = 20;
         String tipo = "Salgado";
         // Act
-        produtoValido = Produto.createProduto(nome, preco, quantidade, tipo);
+        produtoValido = Produto.createProduto(1,nome, preco, quantidade, tipo);
         // Assert
         Assert.assertNotNull(produtoValido);
         Assert.assertEquals("Pão de Forma", produtoValido.getNome());
@@ -44,7 +44,7 @@ public class RF03 {
         int quantidade = 20;
         String tipo = "Salgado";
         //Act
-        prodPrecoInvalido = Produto.createProduto(nome, preco, quantidade, tipo);
+        prodPrecoInvalido = Produto.createProduto(0,nome, preco, quantidade, tipo);
         //Assert
         Assert.assertNull(prodPrecoInvalido);
     }
@@ -64,7 +64,7 @@ public class RF03 {
         int quantidade = -3;
         String tipo = "Salgado";
         //Act
-        prodQuantInvalido = Produto.createProduto(nome, preco, quantidade, tipo);
+        prodQuantInvalido = Produto.createProduto(0,nome, preco, quantidade, tipo);
         //Assert
         Assert.assertNull(prodQuantInvalido);
     }
@@ -84,7 +84,7 @@ public class RF03 {
         int quantidade = 20;
         String tipo = "Carro";
         //Act
-        prodQuantInvalido = Produto.createProduto(nome, preco, quantidade, tipo);
+        prodQuantInvalido = Produto.createProduto(0,nome, preco, quantidade, tipo);
         //Assert
         Assert.assertNull(prodQuantInvalido);
     }

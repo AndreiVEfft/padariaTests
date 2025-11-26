@@ -10,8 +10,8 @@ import static entity.Venda.createVenda;
 
 public class Main {
     public static void main(String[] args) {
-        Produto produto1 = createProduto("Pepsi",10.0,15,"Bebida");
-        Produto produto2 = createProduto("Arthur",599.99,1,"Arthur");
+        Produto produto1 = createProduto(4,"Pepsi",10.0,15,"Bebida");
+        Produto produto2 = createProduto(5,"Arthur",599.99,1,"Arthur");
 
         VendaDao vendaDao = new VendaDao();
         ProdutoDAO prodDao = new ProdutoDAO();

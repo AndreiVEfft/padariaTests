@@ -26,10 +26,6 @@ public class VendaDao implements VendaDaoInterface {
 
     @Override
     public void salvar(Venda venda) {
-
-        ClienteDao dao = new ClienteDao();
-        Cliente cliente = dao.consultarPeloCpf(venda.getCpfCliente());
-
         String sql = "INSERT INTO vendas (cpf_cliente,valor_venda,form_pag,data_venda, produtos) values(?,?,?,?,?)";
 
         try{
@@ -48,9 +44,9 @@ public class VendaDao implements VendaDaoInterface {
 
             smt.execute();
         }
-        catch (SQLException | JsonProcessingException ex) {
+        catch (SQLException | JsonProcessingException | RuntimeException ex) {
             System.out.println(ex.getMessage());
-            throw new RuntimeException("Erro ao tentar criar a venda:");
+            throw new RuntimeException("Erro ao tentar criar a venda: " + ex.getMessage());
         }
     }
 
@@ -100,6 +96,7 @@ public class VendaDao implements VendaDaoInterface {
             while(rs.next()){
                 Venda venda;
                 venda = createVenda( rs.getString("cpf_cliente"), rs.getString("form_pag"), rs.getDouble("valor_venda"), produtos);
+                vendas.add(venda);
                 System.out.println(venda.toString());
                 }
             }

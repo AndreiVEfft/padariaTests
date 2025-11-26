@@ -20,7 +20,7 @@ public class RF09 {
 
         // Arrange
         ArrayList<Produto> produtos = new ArrayList<>();
-        Produto prod01 = Produto.createProduto("Pão de queijo", 5, 20, "Salgado");
+        Produto prod01 = Produto.createProduto(0,"Pão de queijo", 5, 20, "Salgado");
         Venda vendaGenerica;
         produtos.add(prod01);
         // Act

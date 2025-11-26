@@ -68,4 +68,19 @@ public class Cliente {
                 ", pontos=" + pontos +
                 '}';
     }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
+    }
 }
