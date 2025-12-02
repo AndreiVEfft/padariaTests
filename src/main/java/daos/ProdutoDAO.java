@@ -17,7 +17,7 @@ public class ProdutoDAO implements ProdutoDaoInterface {
         Connection conexao = null;
 
         for (Produto umProd : consultar()){
-            if(umProd.getNome().equals(obj.getNome())){
+            if(umProd.getNome().equalsIgnoreCase(obj.getNome())){
                 throw new RuntimeException("Produto já cadastrado!");
             }
         }
@@ -154,7 +154,7 @@ public class ProdutoDAO implements ProdutoDaoInterface {
     @Override
     public Produto consultarPeloNome(String nome) {
         String sql = "SELECT * FROM produtos WHERE nome = ?";
-        Produto prod = new Produto();
+        Produto prod = null;
         try{
 
             Connection con = Conexao.getConnection();

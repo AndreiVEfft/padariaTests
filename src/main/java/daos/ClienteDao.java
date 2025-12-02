@@ -128,7 +128,7 @@ public class ClienteDao implements ClienteDaoInterface {
 
     @Override
     public Cliente consultarPeloCpf(String cpf){
-        Cliente cliente = new Cliente();
+        Cliente cliente = null;
         String sql = "SELECT nome, cpf, telefone, pontos FROM clientes WHERE cpf = ?";
 
         try{
