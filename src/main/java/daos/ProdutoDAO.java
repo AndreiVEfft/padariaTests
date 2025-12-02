@@ -36,7 +36,7 @@ public class ProdutoDAO implements ProdutoDaoInterface {
                 smt.execute();
 
 
-        } catch (SQLException ex) {
+        } catch (SQLException | RuntimeException ex) {
             throw new RuntimeException("Erro ao tentar salvar o cliente: " + ex.getMessage());
         }
     }
