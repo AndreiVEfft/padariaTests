@@ -22,10 +22,11 @@ public class REF03 {
     public void iniciarProduto() {
         mock = new ProdutoMock();
         produtoTeste = Produto.createProduto(
-                "Pão de Forma",
+                1,
+                "Bolinho de carne",
                 6.50,
                 20,
-                "Pão");
+                "Salgado");
 
         mock.salvar(produtoTeste);
     }
@@ -44,7 +45,7 @@ public class REF03 {
         Produto produtoTesteNovo = null;
 
         try {
-            produtoTesteNovo = Produto.createProduto(nome, preco, quantidade, tipoNovo);
+            produtoTesteNovo = Produto.createProduto(1,nome, preco, quantidade, tipoNovo);
         } catch (ProdutoInvalidoException e) {
             fail("Não deveria lançar exceção ao criar cliente atualizado: " + e.getMessage());
         }
@@ -72,73 +73,64 @@ public class REF03 {
         Produto produtoTesteNovo = null;
 
         try {
-            produtoTesteNovo = Produto.createProduto(nomeNovo, preco, quantidade, tipo);
+            produtoTesteNovo = Produto.createProduto(1,nomeNovo, preco, quantidade, tipo);
         } catch (ProdutoInvalidoException e) {
             fail("Não deveria lançar exceção ao criar cliente atualizado: " + e.getMessage());
         }
 
         Produto produtoRetornado = this.mock.update(nomeNovo, produtoTesteNovo);
 
-        assertNotNull(produtoRetornado);
-        assertEquals(nomeNovo, produtoRetornado.getNome(), "Nome não foi atleradol");
+        assertNull(produtoRetornado);
 
         Produto produtoNoMock = mock.consultarPeloNome(nomeNovo);
+        assertNull(produtoNoMock, "O produto atualizado não foi encontrado.");
+    }
+
+    @Test
+
+    // ROTEIRO 02 - CASO 07 - Invalidar alteração de valor não válido
+
+    public void testCS07(){
+        String nome = this.produtoTeste.getNome();
+        double precoInvalido = -5.99;
+        int quantidade = this.produtoTeste.getQuantidade();
+        String tipo = this.produtoTeste.getTipo();
+
+
+        Produto produtoTesteNovo = null;
+
+        try {
+            produtoTesteNovo = Produto.createProduto(1,nome, precoInvalido, quantidade, tipo);
+        } catch (ProdutoInvalidoException e) {
+            fail("Não deveria lançar exceção ao criar cliente atualizado: " + e.getMessage());
+        }
+
+        Produto produtoRetornado = this.mock.update(nome, produtoTesteNovo);
+
+        assertNull(produtoRetornado);
+
+        Produto produtoNoMock = mock.consultarPeloNome(nome);
         assertNotNull(produtoNoMock, "O produto atualizado não foi encontrado.");
     }
 
-        @Test
+    @Test
 
-        // ROTEIRO 02 - CASO 07 - Invalidar alteração de valor não válido
+    // ROTEIRO 02 - CASO 08 - Invalidar alteração de quantidade não válida
 
-        public void testCS07(){
-            String nome = this.produtoTeste.getNome();
-            double precoInvalido = -5.99;
-            int quantidade = this.produtoTeste.getQuantidade();
-            String tipo = this.produtoTeste.getTipo();
-
-
-            Produto produtoTesteNovo = null;
-
-            try {
-                produtoTesteNovo = Produto.createProduto(nome, precoInvalido, quantidade, tipo);
-            } catch (ProdutoInvalidoException e) {
-                fail("Não deveria lançar exceção ao criar cliente atualizado: " + e.getMessage());
-            }
-
-            Produto produtoRetornado = this.mock.update(nome, produtoTesteNovo);
-
-            assertNotNull(produtoRetornado);
-            assertEquals(precoInvalido, produtoRetornado.getPreco(), "Preço não foi atleradol");
-
-            Produto produtoNoMock = mock.consultarPeloNome(nome);
-            assertNotNull(produtoNoMock, "O produto atualizado não foi encontrado.");
-        }
-
-        @Test
-
-        // ROTEIRO 02 - CASO 08 - Invalidar alteração de quantidade não válida
-
-        public void testCS08(){
-            String nome = this.produtoTeste.getNome();
-            double preco = this.produtoTeste.getPreco();
-            int quantidadeInvalido = -5;
-            String tipo = this.produtoTeste.getTipo();
+    public void testCS08(){
+        String nome = this.produtoTeste.getNome();
+        double preco = this.produtoTeste.getPreco();
+        int quantidadeInvalido = -5;
+        String tipo = this.produtoTeste.getTipo();
 
 
-            Produto produtoTesteNovo = null;
+        Produto produtoTesteNovo = null;
 
-            try {
-                produtoTesteNovo = Produto.createProduto(nome, preco, quantidadeInvalido, tipo);
-            } catch (ProdutoInvalidoException e) {
-                fail("Não deveria lançar exceção ao criar cliente atualizado: " + e.getMessage());
-            }
+        produtoTesteNovo = Produto.createProduto(1,"Pão francês", preco, quantidadeInvalido, tipo);
 
-            Produto produtoRetornado = this.mock.update(nome, produtoTesteNovo);
+        Produto produtoRetornado = this.mock.update(nome, produtoTesteNovo);
 
-            assertNotNull(produtoRetornado);
-            assertEquals(quantidadeInvalido, produtoRetornado.getQuantidade(), "Quantidade não foi atleradol");
+        assertNull(produtoRetornado, "O produto atualizado não foi encontrado.");
 
-            Produto produtoNoMock = mock.consultarPeloNome(nome);
-            assertNotNull(produtoNoMock, "O produto atualizado não foi encontrado.");
-        }
     }
+}

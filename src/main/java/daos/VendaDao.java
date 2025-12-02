@@ -152,6 +152,9 @@ public class VendaDao implements VendaDaoInterface {
                     String jsonProdutos = rs.getString("produtos");
                     ArrayList<Produto> produtos = mapper.readValue(
                             jsonProdutos, new TypeReference<ArrayList<Produto>>() {});
+                    for(Produto umProd: produtos){
+                        umProd.setQuantidade(umProd.getQuantidade()+1);
+                    }
                     Venda ven = createVenda(rs.getString("cpf_cliente"), rs.getString("form_pag"), rs.getDouble("valor_venda"), produtos);
                     System.out.println(ven.toString());
                     venda = ven;

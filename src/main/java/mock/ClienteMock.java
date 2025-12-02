@@ -35,14 +35,19 @@ public class ClienteMock implements ClienteDaoInterface {
 
     @Override
     public Cliente update(Cliente cli, String cpf) {
+        Cliente cliente = null;
+        if(cli == null){
+            return cliente;
+        }
         for(Cliente umCli : clientes){
             if (umCli.getCpf().equals(cpf)){
                 clientes.remove(umCli);
                 salvar(cli);
-                return cli;
+                cliente = cli;
+                return cliente;
             }
         }
-        return null;
+        return cliente;
     }
 
     @Override

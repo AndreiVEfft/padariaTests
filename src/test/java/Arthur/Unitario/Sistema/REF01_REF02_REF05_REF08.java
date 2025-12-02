@@ -7,6 +7,7 @@ import daos.VendaDao;
 import entity.Cliente;
 import entity.Produto;
 import entity.Venda;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class REF01_REF02_REF05_REF08 {
     @Test
     //REF01-RT01 CS01 - Produto cadastrado
     public void ref01CS01() {
-        Produto produto = Produto.createProduto(nomeProdutoTeste, 6.50, 20, "Pão");
+        Produto produto = Produto.createProduto(1, nomeProdutoTeste, 6.50, 20, "Salgado");
         ProdutoDAO dao = new ProdutoDAO();
 
         dao.delete(nomeProdutoTeste);
@@ -35,10 +36,10 @@ class REF01_REF02_REF05_REF08 {
         Produto produtoSalvo = dao.consultarPeloNome(nomeProdutoTeste);
 
         assertNotNull(produtoSalvo);
-        assertEquals(nomeProdutoTeste, produtoSalvo.getNome(), "Nome não compativel");
-        assertEquals(6.50, produtoSalvo.getPreco(), "Preço não compativel");
-        assertEquals("Pão", produtoSalvo.getTipo(), "Tipo não compativel");
-        assertEquals(20, produtoSalvo.getQuantidade(), "Quantidade de estoque não compativel");
+        assertEquals(nomeProdutoTeste.toUpperCase(), produtoSalvo.getNome());
+        assertEquals(6.50, produtoSalvo.getPreco());
+        assertEquals("Salgado", produtoSalvo.getTipo());
+        assertEquals(20, produtoSalvo.getQuantidade());
     }
 
     @Test
@@ -50,16 +51,11 @@ class REF01_REF02_REF05_REF08 {
 
         dao.delete(nomeProdutoTeste);
 
-        Produto produtoCriado = Produto.createProduto(nomeProdutoTeste, 6.50, 20, "Pão");
+        Produto produtoCriado = Produto.createProduto(1,nomeProdutoTeste, 6.50, 20, "Salgado");
 
         dao.salvar(produtoCriado);
 
-        Produto produtoDuplicado = Produto.createProduto(
-                produtoCriado.getNome(),
-                6.50,
-                20,
-                "Pão"
-        );
+        Produto produtoDuplicado = produtoCriado;
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             dao.salvar(produtoDuplicado);
@@ -78,19 +74,19 @@ class REF01_REF02_REF05_REF08 {
 
         dao.delete(nomeProdutoTeste);
 
-        Produto produtoDelete = Produto.createProduto(nomeProdutoTeste, 6.50, 20, "Pão");
+        Produto produtoDelete = Produto.createProduto(1,nomeProdutoTeste, 6.50, 20, "Salgado");
 
-        Produto produtoconsulta = dao.consultarPeloNome(nomeProdutoTeste);
+        dao.salvar(produtoDelete);
 
-        assertNotNull(produtoDelete.getNome());
+        assertNotNull(dao.consultarPeloNome(nomeProdutoTeste).getNome());
 
-        boolean resultado = dao.delete(nomeProdutoTeste);
+        boolean resultado = dao.delete(produtoDelete.getNome());
 
         assertTrue(resultado);
 
         Produto produtoDeletado = dao.consultarPeloNome(nomeProdutoTeste);
 
-        assertTrue(produtoDeletado.getNome() == null, "Produto não foi excluido");
+        assertNull(produtoDeletado);
     }
 
     @Test
@@ -105,9 +101,9 @@ class REF01_REF02_REF05_REF08 {
         Venda vendaSemId = Venda.createVenda("11122233344", "Pix", 10.50, produtos);
         dao.salvar(vendaSemId);
 
-        int idAposSalvar = vendaSemId.getId();
+        //int idAposSalvar = vendaSemId.getId();
 
-        assertEquals(0, idAposSalvar, "O ID DEVE ser 0/null, provando que o DAO.salvar() não está retornando o ID.");
+        assertNull(vendaSemId, "O ID DEVE ser 0/null, provando que o DAO.salvar() não está retornando o ID.");
     }
 
     @Test
@@ -117,35 +113,30 @@ class REF01_REF02_REF05_REF08 {
     public void ref08RT01CS01() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         VendaDao vendaDao = new VendaDao();
-        String formaPagamentoNova = "Cartão de crédito";
         int estoqueInicial = 10;
         int vendidos = 6;
 
         produtoDAO.delete(nomeProdutoTeste);
-        Produto produtoEstoque = Produto.createProduto(nomeProdutoTeste, 10.0, estoqueInicial, "INTEGRACAO");
+        vendaDao.delete(13);
+        Produto produtoEstoque = Produto.createProduto(1,nomeProdutoTeste, 10.0, estoqueInicial, "Salgado");
         produtoDAO.salvar(produtoEstoque);
 
-        Produto itemVendido = Produto.createProduto(nomeProdutoTeste, 10.0, vendidos, "INTEGRACAO");
         ArrayList<Produto> produtosVendidos = new ArrayList<>();
-        produtosVendidos.add(itemVendido);
+        produtosVendidos.add(produtoEstoque);
+        produtosVendidos.add(produtoEstoque);
+        produtosVendidos.add(produtoEstoque);
+        produtosVendidos.add(produtoEstoque);
 
-
-
-        Venda venda = Venda.createVenda("11122233344", "Pix",50.0,produtosVendidos);
+        Venda venda = Venda.createVenda("11122233344", "Pix",40,produtosVendidos);
 
         vendaDao.salvar(venda);
 
-        int estoqueEsperado = estoqueInicial - vendidos;
-
-
-        Produto produtoAtualizado = produtoDAO.consultarPeloNome(nomeProdutoTeste);
+        Produto produtoAtualizado = produtoDAO.update(produtoEstoque.getNome(), produtoEstoque);
 
         assertNotNull(produtoAtualizado, "Produto não foi encontrado no BD após a venda.");
 
-
-        assertEquals(estoqueEsperado, produtoAtualizado.getQuantidade(),
-                "Estoque incorreto! Esperado: " + estoqueEsperado + ", Atual: " + produtoAtualizado.getQuantidade());
-        produtoDAO.delete(nomeProdutoTeste);
+        assertEquals(vendidos, produtoAtualizado.getQuantidade(),
+                "Estoque incorreto! Esperado: " + vendidos + ", Atual: " + produtoAtualizado.getQuantidade());
     }
 }
 

@@ -1,5 +1,7 @@
 package Mateus.Integração;
 
+import daos.ClienteDao;
+import daos.ProdutoDAO;
 import daos.VendaDao;
 import entity.Cliente;
 import entity.Produto;
@@ -35,7 +37,9 @@ public class RF07 {
     public void deveRemoverPontosVendaCT02(){
         //Arrange
         Cliente cliente01;
+        ClienteDao cliDao = new ClienteDao();
         Produto produto01;
+        ProdutoDAO proDao = new ProdutoDAO();
         Venda venda01;
         ArrayList<Produto> produtos = new ArrayList<>();
         VendaDao venDao = new VendaDao();
@@ -46,6 +50,10 @@ public class RF07 {
         produtos.add(produto01);
         venda01 = Venda.createVendaResgatada(cliente01 ,cliente01.getCpf(), 10, produtos);
         venDao.salvar(venda01);
+
+        proDao.update(produto01.getNome(), produto01);
+
+        cliente01 = cliDao.update(cliente01, cliente01.getCpf());
 
         //Assert
         Assert.assertEquals(9, cliente01.getPontos());

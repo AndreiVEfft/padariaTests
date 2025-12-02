@@ -12,6 +12,9 @@ public class Produto {
     private double preco;
     private int quantidade;
     private String tipo;
+    private int qtdListadoProdutos;
+    private ArrayList<Produto> produtosCatalogo;
+
 
     public String getTipo() {
         return tipo;
@@ -49,12 +52,7 @@ public class Produto {
             if(quantidade < 0){
                 throw new ProdutoInvalidoException("Quantidade digitada é inválida, favor validar!");
             }
-            for(String prodTipo : carac){
-                if(!tipo.equals(prodTipo)){
-                    cont++;
-                }
-            }
-            if(cont == carac.size()){
+            if (!carac.stream().anyMatch(t -> t.equalsIgnoreCase(tipo))) {
                 throw new ProdutoInvalidoException("Tipo digitado é inválido, favor validar!");
             }
             produto = new Produto(id,nome,preco,quantidade,tipo);
@@ -63,6 +61,30 @@ public class Produto {
         }
 
         return produto;
+    }
+
+    public void produtosCatalogo(Produto prod){
+        if(prod.qtdListadoProdutos > 0) {
+            this.produtosCatalogo.add(prod);
+        }
+    }
+
+    public String listProdutosCatalogo(){
+        String produtos = " Produtos do Catalogo: \n";
+        for (Produto prod : this.produtosCatalogo){
+            produtos += prod.toString() + "\n";
+        }
+
+        return produtos;
+    }
+
+
+    public void setQtdListadoProdutos(int qtdListadoProdutos) {
+        this.qtdListadoProdutos = qtdListadoProdutos;
+    }
+
+    public void setProdutosCatalogo(ArrayList<Produto> produtosCatalogo) {
+        this.produtosCatalogo = produtosCatalogo;
     }
 
     public int getId() {

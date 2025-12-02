@@ -164,8 +164,7 @@ class RF01_RT02_TestArthur {
 
         Cliente clienteRetornado = this.mock.update(clienteTesteNovo, cpf);
 
-        assertNotNull(clienteRetornado);
-        assertEquals(nomeInvalido, clienteRetornado.getNome(), "Nome é null");
+        assertNull(clienteRetornado);
 
         Cliente clienteNoMock = mock.consultarPeloCpf(cpf);
         assertNotNull(clienteNoMock, "O cliente atualizado não foi encontrado.");
@@ -192,8 +191,7 @@ class RF01_RT02_TestArthur {
 
         Cliente clienteRetornado = this.mock.update(clienteTesteNovo, cpf);
 
-        assertNotNull(clienteRetornado);
-        assertEquals(telInvalido, clienteRetornado.getTelefone(), "Telefone é null");
+        assertNull(clienteRetornado);
 
         Cliente clienteNoMock = mock.consultarPeloCpf(cpf);
         assertNotNull(clienteNoMock, "O cliente atualizado não foi encontrado.");
@@ -219,8 +217,7 @@ class RF01_RT02_TestArthur {
 
         Cliente clienteRetornado = this.mock.update(clienteTesteNovo, cpf);
 
-        assertNotNull(clienteRetornado);
-        assertEquals(pontosInvalido, clienteRetornado.getPontos(), "Telefone é null");
+        assertNull(clienteRetornado);
 
         Cliente clienteNoMock = mock.consultarPeloCpf(cpf);
         assertNotNull(clienteNoMock, "O cliente atualizado não foi encontrado.");

@@ -18,12 +18,16 @@ public class REF07 {
     private Venda vendaTeste;
     private VendaMock mock;
     private ArrayList<Produto> produtos;
+    private Produto produtoTeste;
 
     @BeforeEach
 
     public void iniciarVenda() {
         mock = new VendaMock();
         produtos = new ArrayList<>();
+        produtoTeste = Produto.createProduto(1, "Pão de queijo", 5, 20, "Salgado");
+        produtos.add(produtoTeste);
+
         vendaTeste = Venda.createVenda(
                 "11732755922",
                 "Pix",
@@ -41,7 +45,7 @@ public class REF07 {
 
         //tring mtdPag, double valorVenda, ArrayList<Produto>produtos)
         int ponto = vendaTeste.calculaPontos(vendaTeste.getValorVenda());
-        clienteTeste.adicionaPontos(ponto);
+        clienteTeste.setPontos(clienteTeste.getPontos()+ponto);
 
 
         //Pela regra de negócio, a cada 10 reais de compra = 1 ponto, valor esperado é de 20 pontos, já que o valor é 200.
@@ -50,15 +54,15 @@ public class REF07 {
     }
     @Test
 
-        public void testCS02() {
-            ArrayList<Produto>produtos = new ArrayList<>();
-            String cpfInvalido = "1112223334444";
-            Cliente clienteTeste = Cliente.createUser("Andrei", cpfInvalido, "48999999999", 0);
+    public void testCS02() {
+        ArrayList<Produto>produtos = new ArrayList<>();
+        String cpfInvalido = "1112223334444";
+        Cliente clienteTeste = Cliente.createUser("Andrei", cpfInvalido, "48999999999", 0);
 
-            Venda vendaTeste2 = Venda.createVenda(cpfInvalido,"Pix", 200, produtos);
+        Venda vendaTeste2 = Venda.createVenda(cpfInvalido,"Pix", 200, produtos);
 
-            assertNotNull(vendaTeste2, " Erro no teste");
-        }
+        assertNull(vendaTeste2, " Erro no teste");
+    }
 
 
     @Test
@@ -70,7 +74,7 @@ public class REF07 {
         double valorInvalido = -500;
         vendaTeste = Venda.createVenda("11732755922","Pix",valorInvalido,produtos);
 
-        assertNotNull(vendaTeste, " Erro no teste");
+        assertNull(vendaTeste, " Erro no teste");
     }
 
 }

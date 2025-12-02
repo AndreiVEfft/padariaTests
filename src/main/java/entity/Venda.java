@@ -13,7 +13,7 @@ public class Venda {
     private double valorVenda;
 
 
-    private ArrayList<Produto> produtos;
+    private ArrayList<Produto> produtos = new ArrayList<>();
 
     public Venda() {}
 
@@ -141,6 +141,15 @@ public class Venda {
     public String getCpfCliente() {
         return cpfCliente;
     }
+
+
+
+    public int calculaPontos(double valorCompra){
+        int pontos = (int)valorCompra/10;
+
+        return pontos;
+    }
+
     public ArrayList<Produto> getProdutos() {
         return produtos;
     }

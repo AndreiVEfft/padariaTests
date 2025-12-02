@@ -13,13 +13,13 @@ public class REF06 {
     private Produto produtoTeste = new Produto();
     private ProdutoMock mock;
 
-    private Produto paoFrances =  Produto.createProduto(0,"Pão Frances", 20, 2,"Pão");
-    private Produto paoQueijo =  Produto.createProduto(1,"Pão de Queijo", 20, 5, "Pão");
-    private Produto paoFarofa = Produto.createProduto(2,"Pão Doce com farofa", 20, 4, "Pão");
-    private Produto paoDoce = Produto.createProduto(3,"Pão Doce liso", 20, 5, "Pão");
-    private Produto cafe = Produto.createProduto(4,"Café expresso", 20, 4, "Bebida");
-    private Produto roscaTradicional =  Produto.createProduto(5,"Rosca tradicional", 20, 10, "Salgado");
-    private Produto boloCenoura =  Produto.createProduto(6,"Bolo de Cenoura", 20, 20, "Doce");
+    private Produto paoFrances =  Produto.createProduto(1,"Pão Frances", 20, 2,"Salgado");
+    private Produto paoQueijo =  Produto.createProduto(2,"Pão de Queijo", 20, 5, "Salgado");
+    private Produto paoFarofa = Produto.createProduto(3,"Pão Doce com farofa", 20, 4, "Salgado");
+    private Produto paoDoce = Produto.createProduto(4,"Pão Doce liso", 20, 5, "Salgado");
+    private Produto cafe = Produto.createProduto(5,"Café expresso", 20, 4, "Bebida");
+    private Produto roscaTradicional =  Produto.createProduto(6,"Rosca tradicional", 20, 10, "Salgado");
+    private Produto boloCenoura =  Produto.createProduto(7,"Bolo de Cenoura", 20, 20, "Doce");
 
 
     public String produtosCatalogoListados(){
@@ -60,7 +60,7 @@ public class REF06 {
         this.mock = new ProdutoMock();
         String nomeInvalido = "banana";
 
-        assertNotNull(mock.consultarPeloNome(nomeInvalido), "Nenhum produto encontrado!");
+        assertNull(mock.consultarPeloNome(nomeInvalido));
 
 
     }

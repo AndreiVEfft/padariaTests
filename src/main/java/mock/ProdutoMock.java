@@ -35,15 +35,20 @@ public class ProdutoMock implements ProdutoDaoInterface {
     }
 
     @Override
-    public Produto update(String nome, Produto prod) {
+    public Produto update(String nome, Produto prod){
+        Produto produto = null;
+        if(prod == null){
+            return produto;
+        }
         for(Produto umProd : produtos){
             if(umProd.getNome().equalsIgnoreCase(nome)){
                 produtos.remove(umProd);
                 salvar(prod);
-                return prod;
+                produto = prod;
+                return produto;
             }
         }
-        return null;
+        return produto;
     }
 
     @Override

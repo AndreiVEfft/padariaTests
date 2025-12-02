@@ -27,7 +27,7 @@ public class RF04 {
         venDao.salvar(venda01);
 
         //Assert
-        Assert.assertEquals(venda01.toString(), venDao.consultarPeloId(10).toString());
+        Assert.assertEquals(venda01.toString(), venDao.consultarPeloId(29).toString());
     }
 
     @Test

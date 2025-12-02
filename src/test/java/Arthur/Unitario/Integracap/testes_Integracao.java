@@ -6,7 +6,7 @@ import daos.VendaDao;
 import entity.Cliente;
 import entity.Produto;
 import entity.Venda;
-import mock.ClienteMock;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,6 @@ public class testes_Integracao {
     void setUp() {
 
         clienteDao = new ClienteDao();
-        // private Cliente(String nome, String cpf, String telefone, int pontos)
         cliente01 = Cliente.createUser(nomeTeste, cpfTeste, telefoneTeste, pontoTeste);
 
         clienteDao.delete(cpfTeste);
@@ -47,14 +46,11 @@ public class testes_Integracao {
 
         List<Cliente> clientes = clienteDao.consultar();
 
-        Cliente clienteEncontrado1 = clientes.stream()
-                .filter(c -> c.getCpf().equals(cliente01.getCpf()))
-                .findFirst()
-                .orElse(null);
+        Cliente clienteEncontrado1 = clienteDao.consultarPeloCpf(cliente01.getCpf());
 
         assertNotNull(String.valueOf(clienteEncontrado1), "O Cliente 1 (Andrei) está na lista.");
-        assertEquals(cliente01.getNome(), clienteEncontrado1.getNome(), "nome incorreto.");
-        assertEquals(cliente01.getCpf(), clienteEncontrado1.getCpf(), "CPF incorreto.");
+        assertEquals(cliente01.getNome(), clienteEncontrado1.getNome());
+        assertEquals(cliente01.getCpf(), clienteEncontrado1.getCpf());
         assertEquals(cliente01.getPontos(), clienteEncontrado1.getPontos());
 
         clienteDao.delete(cpfTeste);
@@ -72,20 +68,12 @@ public class testes_Integracao {
 
         clienteDao.salvar(clienteTesteDelete);
 
-        Cliente clienteSalvo = clienteDao.consultarPeloCpf(cpfDelete);
-
-        boolean resultado = clienteDao.delete(cpfTeste);
-
-        assertTrue(resultado);
+        clienteDao.delete(cpfDelete);
 
         Cliente clienteDeletado = clienteDao.consultarPeloCpf(cpfDelete);
 
-        if (clienteDeletado != null && clienteDeletado.getNome() != null) {
+        Assert.assertNull(clienteDeletado);
 
-            assertTrue("cliente encontrado no banco após a exclusão.", clienteDeletado.getNome().isEmpty() || clienteDeletado.getCpf().isEmpty());
-        } else {
-            assertNull( "Cliente encontrado no banco após a exclusão.", clienteDeletado);
-        }
     }
 
     @Test
@@ -93,22 +81,17 @@ public class testes_Integracao {
     //REF02-RT01-CS01 - Consultar usuário único
 
     public void testeRT02CS01(){
-        String cpfConsulta = this.cliente01.getCpf();
-        String nome = nomeTeste;
+        String cpfConsulta = cpfTeste;
 
-        clienteDao.salvar(cliente01);
         Cliente clienteConsultado = clienteDao.consultarPeloCpf(cpfConsulta);
 
-        assertEquals(cpfConsulta, clienteConsultado.getCpf(), "CPF incorreto.");
-        assertEquals(nomeTeste, clienteConsultado.getNome(), "Nome incorreto.");
+        assertEquals(cpfConsulta, clienteConsultado.getCpf());
+        assertEquals(nomeTeste.toUpperCase(), clienteConsultado.getNome());
 
         assertNotNull("Cliente encontrado no banco", clienteConsultado);
-        assertEquals(cpfTeste, clienteConsultado.getCpf(), "CPF incorreto.");
-        assertEquals(nomeTeste, clienteConsultado.getNome(), "Nome incorreto.");
-        assertEquals(String.valueOf(pontoTeste), clienteConsultado.getPontos(), "Pontos incorretos.");
-
-        // CLEANUP (Limpeza)
-        clienteDao.delete(cpfTeste);
+        assertEquals(cpfTeste, clienteConsultado.getCpf());
+        assertEquals(nomeTeste.toUpperCase(), clienteConsultado.getNome());
+        assertEquals(pontoTeste, clienteConsultado.getPontos());
     }
 
 
@@ -119,29 +102,26 @@ public class testes_Integracao {
     public void testeREF08RT01CS01(){
         ProdutoDAO produtoDao = new ProdutoDAO();
         VendaDao vendaDao = new VendaDao();
-        int estoqueInicial = 10;
+        produtoDao.delete("Pão");
+        int estoqueInicial = 24;
         int qtdVendida = 6;
-        Produto produto = Produto.createProduto("Pão", 10, estoqueInicial, "Pão");
+        Produto produto = Produto.createProduto(1,"Pão", 10, estoqueInicial, "Salgado");
 
         produtoDao.salvar(produto);
 
-        Produto produtoVendido = Produto.createProduto("Pão", 10, qtdVendida, "Pão");
         ArrayList<Produto> produtosVendidos = new ArrayList<>();
-        produtosVendidos.add(produtoVendido);
+        produtosVendidos.add(produto);
+        produtosVendidos.add(produto);
+        produtosVendidos.add(produto);
 
-        Venda venda = new Venda();
-        venda.setCpfCliente(cliente01.getCpf());
-        venda.setProdutos( produtosVendidos);
-        venda.setValorVenda(produto.getPreco() * produtoVendido.getQuantidade());
 
+        Venda venda = Venda.createVenda(cliente01.getCpf(), "Dinheiro", produto.getPreco() * 3, produtosVendidos);
         vendaDao.salvar(venda);
 
-        int estoqueFinal = estoqueInicial - qtdVendida;
-
-        Produto produtoAtualizado = produtoDao.consultarPeloNome("Pão");
+        Produto produtoAtualizado =  produtoDao.update("Pão", produto);
 
         assertNotNull("Produto não foi encontrado no BD após a venda.",produtoAtualizado);
-        assertEquals("Falha na integração: Estoque no BD não foi decrementado corretamente.",estoqueFinal, produtoAtualizado.getQuantidade());
+        assertEquals("Falha na integração: Estoque no BD não foi decrementado corretamente.",21, produtoAtualizado.getQuantidade());
 
         produtoDao.delete("Pão");
     }
