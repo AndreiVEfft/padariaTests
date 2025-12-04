@@ -1,6 +1,5 @@
 package Mateus.Unitario;
 
-import entity.Cliente;
 import entity.Produto;
 import entity.Venda;
 import mock.VendaMock;

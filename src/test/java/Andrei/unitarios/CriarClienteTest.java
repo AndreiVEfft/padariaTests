@@ -34,11 +34,8 @@ public class CriarClienteTest {
         int pontos = 0;
 
         // Act e Assert
-        ClienteInvalidoException excecao = Assertions.assertThrows(ClienteInvalidoException.class, () -> {
-
-            createUser(nome, cpf, telefone, pontos);
-        });
-        System.out.println(excecao.getMessage());
+        Assertions.assertNull(
+            createUser(nome, cpf, telefone, pontos));
     }
 
     @Test
@@ -51,11 +48,8 @@ public class CriarClienteTest {
         int pontos = 0;
 
         // Act e Assert
-        ClienteInvalidoException excecao = Assertions.assertThrows(ClienteInvalidoException.class, () -> {
-
-            createUser( nome, cpf, telefone, pontos);
-        });
-        System.out.println(excecao.getMessage());
+        Assertions.assertNull(
+                createUser(nome, cpf, telefone, pontos));
     }
 
     @Test
@@ -68,11 +62,8 @@ public class CriarClienteTest {
         int pontos = 0;
 
         // Act e Assert
-        ClienteInvalidoException excecao = Assertions.assertThrows(ClienteInvalidoException.class, () -> {
-
-            createUser(nome, cpf, telefone, pontos);
-        });
-        System.out.println(excecao.getMessage());
+        Assertions.assertNull(
+                createUser(nome, cpf, telefone, pontos));
     }
 
     @Test

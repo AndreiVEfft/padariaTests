@@ -151,6 +151,27 @@ public class ProdutoDAO implements ProdutoDaoInterface {
         }
     }
 
+    public boolean deleteAll(){
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        String sql = "DELETE FROM produtos WHERE id_produto > 0";
+        try{
+            con = Conexao.getConnection();
+
+            stm = con.prepareStatement(sql);
+
+            stm.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            Conexao.fecharConexao();
+        }
+    }
+
     @Override
     public Produto consultarPeloNome(String nome) {
         String sql = "SELECT * FROM produtos WHERE nome = ?";

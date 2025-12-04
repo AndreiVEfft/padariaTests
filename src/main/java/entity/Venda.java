@@ -48,7 +48,12 @@ public class Venda {
             }
 
             for (Produto prod : produtos){
-                prod.setQuantidade(prod.getQuantidade()-1);
+                if(prod.getQuantidade()>1){
+                    prod.setQuantidade(prod.getQuantidade()-1);
+                }
+                else{
+                    throw new VendaInvalidaException("Não há unidades o suficiente deste produto para completar a venda!");
+                }
             }
 
             venda = new Venda(cpfCliente, mtdPag, valorVenda,produtos);
@@ -72,8 +77,12 @@ public class Venda {
             }
 
             for (Produto prod : produtos){
-                prod.setQuantidade(prod.getQuantidade()-1);
-            }
+                if(prod.getQuantidade()>1){
+                    prod.setQuantidade(prod.getQuantidade()-1);
+                }
+                else{
+                    throw new VendaInvalidaException("Não há unidades o suficiente deste produto para completar a venda!");
+                }            }
 
             venda = new Venda(mtdPag, valorVenda,produtos);
         } catch (VendaInvalidaException e) {
@@ -114,8 +123,12 @@ public class Venda {
                 }
             }
             for (Produto prod : produtos){
-                prod.setQuantidade(prod.getQuantidade()-1);
-            }
+                if(prod.getQuantidade()>1){
+                    prod.setQuantidade(prod.getQuantidade()-1);
+                }
+                else{
+                    throw new VendaInvalidaException("Não há unidades o suficiente deste produto para completar a venda!");
+                }            }
 
             if (cliente.getPontos() < quantidadeTotalPontos){
                 throw new VendaInvalidaException("Cliente sem saldo de pontos suficiente!");

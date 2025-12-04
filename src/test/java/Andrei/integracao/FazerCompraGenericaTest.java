@@ -39,11 +39,7 @@ public class FazerCompraGenericaTest {
         produtos.add(produto2);
 
         //Act e Assert
-        VendaInvalidaException excecao = Assertions.assertThrows(VendaInvalidaException.class, () ->{
-            Venda venda = createVendaGenerica("",20,produtos);
-
-        });
-        System.out.println(excecao.getMessage());
+        Assertions.assertNull(createVendaGenerica("",20,produtos));
 
     }
 }

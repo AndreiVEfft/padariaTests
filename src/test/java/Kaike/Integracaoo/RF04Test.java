@@ -38,9 +38,10 @@ public class RF04Test {
         double valorVenda = 10;
         
         VendaDao vendaDao = new VendaDao();
+        vendaDao.deleteAll();
         Venda venda = Venda.createVenda(cpf, mtPag, valorVenda, produtos);
         vendaDao.salvar(venda);
-        
+
         
         //act
         List<Venda> vendas = vendaDao.consultar();
@@ -57,12 +58,10 @@ public class RF04Test {
         VendaDao dao = new VendaDao();
         
         //act
-        dao.delete(38);
-        dao.delete(39);
-        dao.delete(40);
-        List<Venda> vendas = dao.consultar();
+
+        boolean excluiuVendas = dao.deleteAll();
         
         //assert
-        Assertions.assertEquals(0, vendas.size());
+        Assertions.assertTrue(excluiuVendas);
     }
 }

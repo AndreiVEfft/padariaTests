@@ -1,15 +1,5 @@
 package Mateus.Unitario;
 
-import entity.Cliente;
-import entity.Produto;
-import entity.Venda;
-import mock.ClienteMock;
-import mock.ProdutoMock;
-import mock.VendaMock;
-import org.junit.Test;
-
-import java.util.ArrayList;
-
 public class testedotestebagual {
     /*
     @Test

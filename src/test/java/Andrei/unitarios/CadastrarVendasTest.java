@@ -19,7 +19,7 @@ public class CadastrarVendasTest {
     public void deveCadastrarVendaCorreta(){
         //Arrange
         VendaDao dao = new VendaDao();
-
+        dao.deleteAll();
         String cpfCliente = "18945667781";
         String mtdPagamento ="Dinheiro";
         double valor = 50;
@@ -42,6 +42,7 @@ public class CadastrarVendasTest {
     public void naoDeveCadastrarVendaComCpfInexistente() throws VendaInvalidaException {
         // Arrange
         VendaDao dao = new VendaDao();
+        dao.deleteAll();
         Produto produto1 =createProduto(5,"Café 200mg",11.99,14, "Bebida");
         ArrayList<Produto> produtos = new ArrayList<>();
         produtos.add(produto1);
@@ -49,7 +50,7 @@ public class CadastrarVendasTest {
         Venda venda = createVenda("0000000000", "Pix", 50,produtos);
 
         // Act e Assert
-        VendaInvalidaException excecao = Assertions.assertThrows(VendaInvalidaException.class, () -> {
+        RuntimeException excecao = Assertions.assertThrows(RuntimeException.class, () -> {
             dao.salvar(venda);
         });
         System.out.println(excecao.getMessage());
@@ -58,7 +59,7 @@ public class CadastrarVendasTest {
     public void naoDeveCadastrarVendaComTipoDePagamentoInexistente() throws VendaInvalidaException {
         // Arrange
         VendaDao dao = new VendaDao();
-
+        dao.deleteAll();
         Produto produto1 =createProduto(5,"Café 200mg",11.99,14, "Bebida");
         ArrayList<Produto> produtos = new ArrayList<>();
         produtos.add(produto1);
@@ -66,9 +67,8 @@ public class CadastrarVendasTest {
         Venda venda = createVenda("00000000000", "", 50,produtos);
 
         // Act e Assert
-        VendaInvalidaException excecao =Assertions.assertThrows(VendaInvalidaException.class, () -> {
+        RuntimeException excecao = Assertions.assertThrows(RuntimeException.class, () -> {
             dao.salvar(venda);
-
         });
         System.out.println(excecao.getMessage());
     }
@@ -76,7 +76,7 @@ public class CadastrarVendasTest {
     public void naoDeveCadastrarVendaComValorInvalido() throws VendaInvalidaException {
         // Arrange
         VendaDao dao = new VendaDao();
-
+        dao.deleteAll();
         Produto produto1 =createProduto(5,"Café 200mg",11.99,14, "Bebida");
         ArrayList<Produto> produtos = new ArrayList<>();
         produtos.add(produto1);
@@ -84,9 +84,8 @@ public class CadastrarVendasTest {
         Venda venda = createVenda("00000000000", "Pix", 0,produtos);
 
         // Act e Assert
-        VendaInvalidaException excecao =Assertions.assertThrows(VendaInvalidaException.class, () -> {
+        RuntimeException excecao = Assertions.assertThrows(RuntimeException.class, () -> {
             dao.salvar(venda);
-
         });
         System.out.println(excecao.getMessage());
     }

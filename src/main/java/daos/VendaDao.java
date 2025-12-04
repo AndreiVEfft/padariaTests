@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static entity.Venda.createVenda;
+import static entity.Venda.createVendaGenerica;
 
 public class VendaDao implements VendaDaoInterface {
 
@@ -47,6 +48,9 @@ public class VendaDao implements VendaDaoInterface {
         catch (SQLException | JsonProcessingException | RuntimeException ex) {
             System.out.println(ex.getMessage());
             throw new RuntimeException("Erro ao tentar criar a venda: " + ex.getMessage());
+        }
+        finally {
+            Conexao.fecharConexao();
         }
     }
 
@@ -93,12 +97,20 @@ public class VendaDao implements VendaDaoInterface {
                 String jsonProdutos = rs.getString("produtos");
                 ArrayList<Produto> produtos = mapper.readValue(
                         jsonProdutos, new TypeReference<ArrayList<Produto>>() {});
-            while(rs.next()){
+                for(Produto umProd: produtos){
+                    umProd.setQuantidade(umProd.getQuantidade()+1);
+                }
+            do{
                 Venda venda;
-                venda = createVenda( rs.getString("cpf_cliente"), rs.getString("form_pag"), rs.getDouble("valor_venda"), produtos);
+                if(rs.getString("cpf_cliente").equalsIgnoreCase("Genérico")){
+                    venda = createVendaGenerica( rs.getString("form_pag"), rs.getDouble("valor_venda"), produtos);
+                }
+                else{
+                    venda = createVenda( rs.getString("cpf_cliente"), rs.getString("form_pag"), rs.getDouble("valor_venda"), produtos);
+                }
                 vendas.add(venda);
                 System.out.println(venda.toString());
-                }
+                }while(rs.next());
             }
 
 
@@ -133,6 +145,27 @@ public class VendaDao implements VendaDaoInterface {
             throw new RuntimeException();
         }
         finally{
+            Conexao.fecharConexao();
+        }
+    }
+
+    public boolean deleteAll(){
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        String sql = "DELETE FROM vendas WHERE valor_venda > 0";
+        try{
+            con = Conexao.getConnection();
+
+            stm = con.prepareStatement(sql);
+
+            stm.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
             Conexao.fecharConexao();
         }
     }

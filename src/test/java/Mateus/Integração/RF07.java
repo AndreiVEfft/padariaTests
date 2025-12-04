@@ -21,6 +21,7 @@ public class RF07 {
         Venda venda01;
         ArrayList<Produto> produtos = new ArrayList<>();
         VendaDao venDao = new VendaDao();
+        venDao.deleteAll();
 
         //Act
         cliente01 = Cliente.createUser("Andrei", "56756756756", "47999999999", 0);

@@ -18,6 +18,7 @@ public class RF03 {
         //Act
         produto01 = Produto.createProduto(1,nome, 6.5, 20, "Doce");
         produtoUpd = Produto.createProduto(1,"PÃO FRANCÊS", 5.99, 40, "Salgado");
+        prodDao.deleteAll();
         prodDao.salvar(produto01);
         prodDao.update(nome.toUpperCase(), produtoUpd);
 

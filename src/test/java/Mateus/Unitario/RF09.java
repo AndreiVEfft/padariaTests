@@ -2,7 +2,6 @@ package Mateus.Unitario;
 
 import entity.Produto;
 import entity.Venda;
-import mock.VendaMock;
 import org.junit.Assert;
 import org.junit.Test;
 

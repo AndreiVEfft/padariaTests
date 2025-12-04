@@ -1,7 +1,6 @@
 package Mateus.Sistema;
 
 import entity.Cliente;
-import entity.Login;
 import entity.Produto;
 import entity.Venda;
 import mock.ClienteMock;

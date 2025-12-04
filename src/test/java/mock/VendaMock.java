@@ -37,7 +37,7 @@ public class VendaMock implements VendaDaoInterface {
     @Override
     public Venda update(Venda venda, int id) {
         for(Venda umaVen : vendas){
-            if(vendas.indexOf(umaVen) == id){
+            if(vendas.indexOf(umaVen) == id && venda!=null){
                 vendas.remove(umaVen);
                 salvar(venda);
                 return venda;

@@ -24,10 +24,11 @@ public class RF04 {
         produto01 = Produto.createProduto(1,"Pão de Queijo", 10,20,"Salgado");
         produtos.add(produto01);
         venda01 = Venda.createVenda(cpfCliente,"Dinheiro", 10, produtos);
+        venDao.deleteAll();
         venDao.salvar(venda01);
 
         //Assert
-        Assert.assertEquals(venda01.toString(), venDao.consultarPeloId(29).toString());
+        Assert.assertEquals(venda01.toString(), venDao.consultar().getFirst().toString());
     }
 
     @Test

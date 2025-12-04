@@ -42,11 +42,13 @@ public class RF09Test {
         
         VendaDao dao = new VendaDao();
         Venda venda = Venda.createVendaGenerica(mtPag, valorVenda, produtos);
+        dao.deleteAll();
         dao.salvar(venda);
         
         //act
         List<Venda> vendas = new ArrayList<>();
-        vendas.add(dao.consultarPeloId(42));
+        vendas=dao.consultar();
+
         
         //assert
         Assertions.assertEquals("Genérico", vendas.getFirst().getCpfCliente());

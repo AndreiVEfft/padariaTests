@@ -126,6 +126,27 @@ public class ClienteDao implements ClienteDaoInterface {
         return cli;
     }
 
+    public boolean deleteAll(){
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        String sql = "DELETE FROM clientes WHERE id_cliente > 0";
+        try{
+            con = Conexao.getConnection();
+
+            stm = con.prepareStatement(sql);
+
+            stm.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            Conexao.fecharConexao();
+        }
+    }
+
     @Override
     public Cliente consultarPeloCpf(String cpf){
         Cliente cliente = null;

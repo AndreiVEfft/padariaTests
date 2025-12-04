@@ -12,11 +12,14 @@ public class ValidarInformacaoLoginTest {
 
         //Arrange
         ClienteDao clienteDAO = new ClienteDao();
-        Cliente cliente = clienteDAO.consultarPeloCpf("11122233344");
+        clienteDAO.deleteAll();
+
+        Cliente cliente = Cliente.createUser("Mateus", "11122233344", "54999999999", 10);
+        clienteDAO.salvar(cliente);
         Login login = new Login(cliente);
 
         //Act
-        login.validarLogin(cliente.getCpf(), "MAT111");
+        login.validarLogin(clienteDAO.consultarPeloCpf("11122233344").getCpf(), "MAT111");
 
         //Assert
         Assertions.assertTrue(login.validarLogin(cliente.getCpf(), "MAT111"));
@@ -26,7 +29,9 @@ public class ValidarInformacaoLoginTest {
 
         //Arrange
         ClienteDao clienteDAO = new ClienteDao();
-        Cliente cliente = clienteDAO.consultarPeloCpf("11122233344");
+        clienteDAO.deleteAll();
+        Cliente cliente = Cliente.createUser("Mateus", "11122233344", "54999999999", 10);
+        clienteDAO.salvar(cliente);
         Login login = new Login(cliente);
 
         //Act
